@@ -1,4 +1,5 @@
 ﻿using BLL.Interfaces;
+using DNDCharacterCreator.Hubs;
 using DNDCharacterCreator.Mappers;
 using DNDCharacterCreator.Models;
 using Microsoft.AspNetCore.Http;
@@ -11,17 +12,19 @@ namespace DNDCharacterCreator.Controllers
     public class CharacterController : ControllerBase
     {
         private readonly ICharacterService _service;
+        private readonly CharHub _hub;
 
-        public CharacterController(ICharacterService service)
+        public CharacterController(ICharacterService service, CharHub hub)
         {
             _service = service;
+            _hub = hub;
         }
 
         [HttpPost]
         public IActionResult Create(CharacterForm form)
         {
             if (!ModelState.IsValid) return BadRequest();
-            
+            //_hub.NewChar();
             return Ok(_service.Create(form.ToBll()));
         }
 
